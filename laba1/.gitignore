@@ -1,0 +1,13 @@
+# Скомпилированные файлы и временный мусор
+*.exe
+*.o
+*.obj
+*.out
+
+# Папки сборки Visual Studio / CLion / Qt Creator
+.vs/
+bin/
+obj/
+build/
+cmake-build-debug/
+cmake-build-release/
