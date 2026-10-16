@@ -22,9 +22,10 @@ void Teacher::print() const {
 
 void Teacher::input() {
     std::cout << "Введите группы (через запятую): ";
-    std::cin >> groups;
+    std::cin >> std::ws;
+    std::getline(std::cin, groups);
     std::cout << "Введите предметы: ";
-    std::cin >> subjects;
+    std::getline(std::cin, subjects);
 }
 
 void Teacher::save(std::ofstream& fout) const {

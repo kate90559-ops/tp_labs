@@ -26,11 +26,12 @@ void Staff::print() const {
 
 void Staff::input() {
     std::cout << "Введите должность: ";
-    std::cin >> position;
+    std::cin >> std::ws;
+    std::getline(std::cin, position);
     std::cout << "Введите телефон: ";
-    std::cin >> phone;
+    std::getline(std::cin, phone);
     std::cout << "Введите зону ответственности: ";
-    std::cin >> responsibility;
+    std::getline(std::cin, responsibility);
 }
 
 void Staff::save(std::ofstream& fout) const {

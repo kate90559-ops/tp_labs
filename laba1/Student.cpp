@@ -26,9 +26,10 @@ void Student::print() const {
 
 void Student::input() {
     std::cout << "Введите группу: ";
-    std::cin >> group;
+    std::cin >> std::ws;
+    std::getline(std::cin, group);
     std::cout << "Введите специальность: ";
-    std::cin >> specialty;
+    std::getline(std::cin, specialty);
     std::cout << "Введите курс: ";
     std::cin >> course;
     std::cout << "Введите средний балл: ";
