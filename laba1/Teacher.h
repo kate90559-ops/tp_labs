@@ -5,17 +5,20 @@
 
 class Teacher : public Base {
 private:
-    std::string groups;    // Ведомые группы
-    std::string subjects;  // Преподаваемые предметы
+    char* groups;
+    char* subjects;
 
 public:
     Teacher();
-    Teacher(std::string name, std::string grps, std::string subjs);
+    Teacher(const char* name, const char* grps, const char* subjs);
     Teacher(const Teacher& other);
     ~Teacher() override;
 
+    Teacher& operator=(const Teacher& other);
+
     void print() const override;
     void input() override;
+    void edit() override;
     void save(std::ofstream& fout) const override;
     void load(std::ifstream& fin) override;
 };

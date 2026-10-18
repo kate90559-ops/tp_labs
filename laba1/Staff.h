@@ -5,18 +5,21 @@
 
 class Staff : public Base {
 private:
-    std::string position;
-    std::string phone;
-    std::string responsibility;
+    char* position;
+    char* phone;
+    char* responsibility;
 
 public:
     Staff();
-    Staff(std::string name, std::string pos, std::string ph, std::string resp);
+    Staff(const char* name, const char* pos, const char* ph, const char* resp);
     Staff(const Staff& other);
     ~Staff() override;
 
+    Staff& operator=(const Staff& other);
+
     void print() const override;
     void input() override;
+    void edit() override;
     void save(std::ofstream& fout) const override;
     void load(std::ifstream& fin) override;
 };

@@ -5,92 +5,98 @@
 #include "Teacher.h"
 #include "Staff.h"
 
-void showMenu() {
-    std::cout << "\n=== МЕНЮ УПРАВЛЕНИЯ ВУЗОМ ===\n"
-              << "1. Добавить студента\n"
-              << "2. Добавить преподавателя\n"
-              << "3. Добавить сотрудника\n"
-              << "4. Просмотреть все записи\n"
-              << "5. Удалить запись по индексу\n"
-              << "6. Сохранить в файл\n"
-              << "7. Загрузить из файла\n"
-              << "0. Выход\n"
-              << "Выберите пункт меню: ";
-}
-
 int main() {
-    // Установка кодировки для корректного отображения кириллицы в консоли Windows
-    system("chcp 65001 > nul");
-
     Keeper keeper;
     int choice = -1;
 
     while (choice != 0) {
-        showMenu();
+        std::cout << "\n=== UNIVERSITY MANAGEMENT SYSTEM ===\n"
+                  << "1. Add student\n"
+                  << "2. Add teacher\n"
+                  << "3. Add staff\n"
+                  << "4. View all records\n"
+                  << "5. Edit record by index\n"
+                  << "6. Delete record by index\n"
+                  << "7. Save to file\n"
+                  << "8. Load from file\n"
+                  << "0. Exit\n"
+                  << "Select menu option: ";
+
         if (!(std::cin >> choice)) {
-            std::cout << "Ошибка ввода! Пожалуйста, введите число.\n";
+            std::cout << "Input error! Please enter a number.\n";
             std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            choice = -1; // <--- ВАЖНО: сбрасываем choice, чтобы цикл не завершился из-за стандарта C++
+            std::cin.ignore(10000, '\n');
             continue;
         }
 
         try {
             switch (choice) {
                 case 1: {
-                    Student* student = new Student();
+                    Base* student = new Student();
                     student->input();
                     keeper.add(student);
+                    std::cout << "Student added successfully!\n";
                     break;
                 }
                 case 2: {
-                    Teacher* teacher = new Teacher();
+                    Base* teacher = new Teacher();
                     teacher->input();
                     keeper.add(teacher);
+                    std::cout << "Teacher added successfully!\n";
                     break;
                 }
                 case 3: {
-                    Staff* staff = new Staff();
+                    Base* staff = new Staff();
                     staff->input();
                     keeper.add(staff);
+                    std::cout << "Staff added successfully!\n";
                     break;
                 }
-                case 4: {
-                    std::cout << "\n--- СПИСОК ВСЕХ ЗАПИСЕЙ ---\n";
+                case 4:
                     keeper.printAll();
                     break;
-                }
                 case 5: {
                     int index;
-                    std::cout << "Введите индекс для удаления: ";
+                    std::cout << "Enter index to edit (starting from 0): ";
                     std::cin >> index;
-                    keeper.remove(index);
+                    keeper.editElement(index);
+                    std::cout << "Record updated successfully!\n";
                     break;
                 }
                 case 6: {
-                    std::string filename;
-                    std::cout << "Введите имя файла для сохранения (например, data.txt): ";
-                    std::cin >> filename;
-                    keeper.saveToFile(filename);
+                    int index;
+                    std::cout << "Enter index to delete (starting from 0): ";
+                    std::cin >> index;
+                    keeper.remove(index);
+                    std::cout << "Record deleted successfully!\n";
                     break;
                 }
                 case 7: {
                     std::string filename;
-                    std::cout << "Введите имя файла для загрузки (например, data.txt): ";
+                    std::cout << "Enter filename to save: ";
+                    std::cin >> filename;
+                    keeper.saveToFile(filename);
+                    std::cout << "Data saved to file successfully!\n";
+                    break;
+                }
+                case 8: {
+                    std::string filename;
+                    std::cout << "Enter filename to load: ";
                     std::cin >> filename;
                     keeper.loadFromFile(filename);
+                    std::cout << "Data loaded from file successfully!\n";
                     break;
                 }
                 case 0:
-                    std::cout << "Выход из программы...\n";
+                    std::cout << "Exiting program...\n";
                     break;
                 default:
-                    std::cout << "Неверный пункт меню! Попробуйте снова.\n";
+                    std::cout << "Invalid menu option! Please try again.\n";
             }
         } catch (const std::exception& e) {
-            std::cout << "Исключение: " << e.what() << "\n";
+            std::cout << "Exception: " << e.what() << "\n";
         } catch (...) {
-            std::cout << "Произошло неизвестное исключение!\n";
+            std::cout << "An unknown exception occurred!\n";
         }
     }
 

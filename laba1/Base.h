@@ -3,26 +3,28 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <cstring>
 
 class Base {
 protected:
-    std::string fullName; // ФИО элемента
+    char* fullName; // Dynamic string for Full Name
 
 public:
     Base();
-    Base(std::string name);
+    Base(const char* name);
     Base(const Base& other);
     virtual ~Base();
 
-    std::string getFullName() const;
-    void setFullName(const std::string& name);
+    Base& operator=(const Base& other);
 
-    // Чисто виртуальные методы
-    virtual void print() const = 0;              // Вывод данных в консоль
-    virtual void input() = 0;                    // Ввод данных с клавиатуры
-    virtual void save(std::ofstream& fout) const = 0; // Сохранение в файл
-    virtual void load(std::ifstream& fin) = 0;   // Чтение из файла
+    const char* getFullName() const;
+    void setFullName(const char* name);
+
+    virtual void print() const = 0;
+    virtual void input() = 0;
+    virtual void edit() = 0;
+    virtual void save(std::ofstream& fout) const = 0;
+    virtual void load(std::ifstream& fin) = 0;
 };
 
 #endif // BASE_H

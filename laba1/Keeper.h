@@ -2,23 +2,29 @@
 #define KEEPER_H
 
 #include "Base.h"
+#include <string>
 
 class Keeper {
 private:
-    Base** data;     // Динамический массив указателей на базовый класс
-    int size;        // Текущее количество элементов
-    int capacity;    // Вместимость массива
-    void resize();   // Расширение памяти при переполнении
+    Base** data;
+    int size;
+    int capacity;
+
+    void resize();
 
 public:
     Keeper();
     ~Keeper();
 
-    void add(Base* item);          // Добавление элемента
-    void remove(int index);        // Удаление элемента
-    void printAll() const;         // Вывод всех элементов
-    void saveToFile(const std::string& filename) const;   // Сохранение в файл
-    void loadFromFile(const std::string& filename);     // Загрузка из файла
+    void add(Base* item);
+    void remove(int index);
+    void editElement(int index);
+    void printAll() const;
+
+    void saveToFile(const std::string& filename) const;
+    void loadFromFile(const std::string& filename);
+
+    int getSize() const;
 };
 
 #endif // KEEPER_H

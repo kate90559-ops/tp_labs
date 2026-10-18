@@ -2,11 +2,12 @@
 #include "Student.h"
 #include "Teacher.h"
 #include "Staff.h"
+#include <iostream>
+#include <fstream>
 #include <stdexcept>
 
 Keeper::Keeper() : size(0), capacity(2) {
     data = new Base*[capacity];
-    std::cout << "Контейнер Keeper создан\n";
 }
 
 Keeper::~Keeper() {
@@ -14,7 +15,6 @@ Keeper::~Keeper() {
         delete data[i];
     }
     delete[] data;
-    std::cout << "Контейнер Keeper удален\n";
 }
 
 void Keeper::resize() {
@@ -28,30 +28,36 @@ void Keeper::resize() {
 }
 
 void Keeper::add(Base* item) {
-    if (size >= capacity) {
+    if (size == capacity) {
         resize();
     }
     data[size++] = item;
-    std::cout << "Объект успешно добавлен в контейнер!\n";
 }
 
 void Keeper::remove(int index) {
     if (index < 0 || index >= size) {
-        throw std::out_of_range("Ошибка: индекс за пределами диапазона!");
+        throw std::out_of_range("Error: Index out of bounds!");
     }
     delete data[index];
     for (int i = index; i < size - 1; ++i) {
         data[i] = data[i + 1];
     }
-    size--;
-    std::cout << "Объект удален из контейнера.\n";
+    --size;
+}
+
+void Keeper::editElement(int index) {
+    if (index < 0 || index >= size) {
+        throw std::out_of_range("Error: Index out of bounds!");
+    }
+    data[index]->edit();
 }
 
 void Keeper::printAll() const {
     if (size == 0) {
-        std::cout << "Контейнер пуст.\n";
+        std::cout << "Keeper is empty.\n";
         return;
     }
+    std::cout << "--- ALL RECORDS ---\n";
     for (int i = 0; i < size; ++i) {
         std::cout << i << ". ";
         data[i]->print();
@@ -61,50 +67,52 @@ void Keeper::printAll() const {
 void Keeper::saveToFile(const std::string& filename) const {
     std::ofstream fout(filename);
     if (!fout.is_open()) {
-        throw std::runtime_error("Ошибка открытия файла для записи!");
+        throw std::runtime_error("Error: Could not open file for writing!");
     }
     fout << size << "\n";
     for (int i = 0; i < size; ++i) {
         data[i]->save(fout);
     }
-    std::cout << "Данные успешно сохранены в файл.\n";
+    fout.close();
 }
 
 void Keeper::loadFromFile(const std::string& filename) {
     std::ifstream fin(filename);
     if (!fin.is_open()) {
-        throw std::runtime_error("Ошибка открытия файла для чтения!");
+        throw std::runtime_error("Error: Could not open file for reading!");
     }
-    
-    int loadedSize;
-    fin >> loadedSize;
-    if (fin.fail()) return;
 
-    // Очищаем старые данные перед загрузкой новых
     for (int i = 0; i < size; ++i) {
         delete data[i];
     }
     size = 0;
 
+    int count;
+    if (!(fin >> count)) {
+        fin.close();
+        return;
+    }
+
     std::string type;
-    for (int i = 0; i < loadedSize; ++i) {
+    for (int i = 0; i < count; ++i) {
         fin >> type;
-        Base* newItem = nullptr;
+        Base* item = nullptr;
         if (type == "Student") {
-            newItem = new Student();
+            item = new Student();
         } else if (type == "Teacher") {
-            newItem = new Teacher();
+            item = new Teacher();
         } else if (type == "Staff") {
-            newItem = new Staff();
+            item = new Staff();
         }
 
-        if (newItem != nullptr) {
-            newItem->load(fin);
-            if (size >= capacity) {
-                resize();
-            }
-            data[size++] = newItem;
+        if (item) {
+            item->load(fin);
+            add(item);
         }
     }
-    std::cout << "Данные успешно загружены из файла.\n";
+    fin.close();
+}
+
+int Keeper::getSize() const {
+    return size;
 }
