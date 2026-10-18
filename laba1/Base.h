@@ -6,12 +6,19 @@
 #include <string>
 
 class Base {
+protected:
+    std::string fullName; // ФИО элемента
+
 public:
     Base();
+    Base(std::string name);
     Base(const Base& other);
     virtual ~Base();
 
-    // Чисто виртуальные методы (интерфейс для классов-наследников)
+    std::string getFullName() const;
+    void setFullName(const std::string& name);
+
+    // Чисто виртуальные методы
     virtual void print() const = 0;              // Вывод данных в консоль
     virtual void input() = 0;                    // Ввод данных с клавиатуры
     virtual void save(std::ofstream& fout) const = 0; // Сохранение в файл

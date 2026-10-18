@@ -5,12 +5,12 @@
 
 class Teacher : public Base {
 private:
-    std::string groups;    // Весомые группы (для простоты в виде строки через запятую)
+    std::string groups;    // Ведомые группы
     std::string subjects;  // Преподаваемые предметы
 
 public:
     Teacher();
-    Teacher(std::string grps, std::string subjs);
+    Teacher(std::string name, std::string grps, std::string subjs);
     Teacher(const Teacher& other);
     ~Teacher() override;
 

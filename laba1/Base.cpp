@@ -1,13 +1,25 @@
 #include "Base.h"
 
-Base::Base() {
-    // Конструктор по умолчанию
+Base::Base() : fullName("Неизвестно") {
+    std::cout << "Базовый конструктор по умолчанию вызван\n";
 }
 
-Base::Base(const Base& other) {
-    // Конструктор копирования
+Base::Base(std::string name) : fullName(name) {
+    std::cout << "Базовый параметризованный конструктор вызван для: " << fullName << "\n";
+}
+
+Base::Base(const Base& other) : fullName(other.fullName) {
+    std::cout << "Базовый конструктор копирования вызван для: " << fullName << "\n";
 }
 
 Base::~Base() {
-    // Виртуальный деструктор для корректного освобождения памяти наследников
+    std::cout << "Базовый деструктор вызван для: " << fullName << "\n";
+}
+
+std::string Base::getFullName() const {
+    return fullName;
+}
+
+void Base::setFullName(const std::string& name) {
+    fullName = name;
 }

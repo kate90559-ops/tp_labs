@@ -11,7 +11,7 @@ private:
 
 public:
     Staff();
-    Staff(std::string pos, std::string ph, std::string resp);
+    Staff(std::string name, std::string pos, std::string ph, std::string resp);
     Staff(const Staff& other);
     ~Staff() override;
 
