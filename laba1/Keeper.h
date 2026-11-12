@@ -6,15 +6,15 @@
 
 class Keeper {
 private:
-    Base** data;
+    Base** data; //массив, где хранятся указатели на объекты
     int size;
     int capacity;
 
     void resize();
 
 public:
-    Keeper();
-    ~Keeper();
+    Keeper(); //создает пустой контейнер при запуске
+    ~Keeper(); //чистит всю память
 
     void add(Base* item);
     void remove(int index);

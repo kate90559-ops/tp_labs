@@ -7,15 +7,15 @@
 
 class Base {
 protected:
-    char* fullName; // Dynamic string for Full Name
+    char* fullName; // Динамическая строка fullName (для хранения фио массив с динамической памятью)
 
 public:
-    Base();
-    Base(const char* name);
-    Base(const Base& other);
-    virtual ~Base();
+    Base(); // конструктор по умолчанию (вызывается, когда создаем объект базового класса без передачи каких-либо параметров)
+    Base(const char* name); //параметризированный конструктор (когда сразу передаем имя при создании объекта)
+    Base(const Base& other); // конструктор копирования (когда новый объект создается как точная копия существующего объекта)
+    virtual ~Base(); //деструктор (при уничтожении объекта)
 
-    Base& operator=(const Base& other);
+    Base& operator=(const Base& other); //оператор присвоения (когда один уже существующий оъект присваивается другому)
 
     const char* getFullName() const;
     void setFullName(const char* name);
